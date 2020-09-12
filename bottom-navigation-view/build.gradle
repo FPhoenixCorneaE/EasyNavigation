@@ -10,8 +10,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 102
-        versionName "1.0.2"
+        versionCode 103
+        versionName "1.0.3"
         // 支持矢量图
         vectorDrawables.useSupportLibrary = true
 
@@ -22,9 +22,9 @@ android {
         release {
             tasks.withType(Javadoc).all { enabled = false }
             // 执行proguard混淆
-            minifyEnabled true
+            minifyEnabled false
             // Zipalign优化
-            zipAlignEnabled true
+            zipAlignEnabled false
             // 移除无用的resource文件
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
