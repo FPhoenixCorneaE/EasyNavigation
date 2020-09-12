@@ -1,0 +1,2 @@
+include ':bottom-navigation-view'
+include ':app'
