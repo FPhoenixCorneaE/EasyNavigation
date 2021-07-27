@@ -10,14 +10,18 @@ import android.widget.TextView
 fun ImageView.changeImageColorFilter(fromColor: Int, toColor: Int) =
     ValueAnimator.ofObject(ArgbEvaluator(), fromColor, toColor).run {
         duration = 150
-        addUpdateListener { animator -> setColorFilter(animator.animatedValue as Int) }
+        addUpdateListener { animator ->
+            setColorFilter(animator.animatedValue as Int)
+        }
         start()
     }
 
 fun View.changeViewBackgroundColor(fromColor: Int, toColor: Int) =
     ValueAnimator.ofObject(ArgbEvaluator(), fromColor, toColor).run {
         duration = 150
-        addUpdateListener { animator -> setBackgroundColor(animator.animatedValue as Int) }
+        addUpdateListener { animator ->
+            setBackgroundColor(animator.animatedValue as Int)
+        }
         start()
     }
 
@@ -55,7 +59,9 @@ fun TextView.changeTextSize(from: Float, to: Float) =
 fun TextView.changeTextColor(fromColor: Int, toColor: Int) =
     ValueAnimator.ofObject(ArgbEvaluator(), fromColor, toColor).run {
         duration = 150
-        addUpdateListener { animator -> setTextColor(animator.animatedValue as Int) }
+        addUpdateListener { animator ->
+            setTextColor(animator.animatedValue as Int)
+        }
         start()
     }
 
