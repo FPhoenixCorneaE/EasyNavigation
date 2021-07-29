@@ -1,11 +1,11 @@
-package com.fphoenixcorneae.bottomnavigation.demo
+package com.fphoenixcorneae.navigation.demo
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.fphoenixcorneae.bottomnavigation.demo.databinding.FragmentSampleBinding
+import com.fphoenixcorneae.navigation.demo.databinding.FragmentSampleBinding
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"

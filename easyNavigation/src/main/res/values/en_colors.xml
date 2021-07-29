@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="en_itemActiveColorWithoutColoredBackground">#000000</color>
+    <color name="en_itemInactiveColorWithoutColoredBackground">#757575</color>
+    <color name="en_lineColor">#E7E7E7</color>
+</resources>

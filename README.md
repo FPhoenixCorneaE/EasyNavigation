@@ -1,4 +1,4 @@
-# BottomNavigationView
+# EasyNavigation
 底部导航栏
 
 
@@ -8,7 +8,8 @@ How to include it in your project:
 ```groovy
 allprojects {
 	repositories {
-		...
+        google()
+        mavenCentral()
 		maven { url 'https://jitpack.io' }
 	}
 }
@@ -17,6 +18,6 @@ allprojects {
 **Step 2.** Add the dependency
 ```groovy
 dependencies {
-	implementation 'com.github.FPhoenixCorneaE:BottomNavigationView:$latest'
+	implementation 'com.github.FPhoenixCorneaE:EasyNavigation:$latest'
 }
 ```

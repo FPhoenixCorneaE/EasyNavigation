@@ -1,4 +1,4 @@
-package com.fphoenixcorneae.bottomnavigation.demo
+package com.fphoenixcorneae.navigation.demo
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -7,8 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.fphoenixcorneae.bottomnavigation.BottomNavigationItem
-import com.fphoenixcorneae.bottomnavigation.demo.databinding.ActivityMainBinding
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.fphoenixcorneae.navigation.NavigationItem
+import com.fphoenixcorneae.navigation.demo.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +21,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(mViewBinding!!.root)
 
         val fargments = arrayListOf(
+            SampleFragment.newInstance("HomeFragment", ""),
+            SampleFragment.newInstance("DiscoverFragment", ""),
+            SampleFragment.newInstance("HotFragment", ""),
+            SampleFragment.newInstance("MineFragment", "")
+        )
+        val fargments2 = arrayListOf(
             SampleFragment.newInstance("HomeFragment", ""),
             SampleFragment.newInstance("DiscoverFragment", ""),
             SampleFragment.newInstance("HotFragment", ""),
@@ -48,10 +55,24 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        mViewBinding!!.vpPager2.apply {
+            adapter = object :FragmentStateAdapter(this@MainActivity){
+                override fun getItemCount(): Int {
+                    return fargments2.size
+                }
 
-        mViewBinding!!.bnvBottomBar1.activateTabletMode()
-            .setUpWithViewPager(
+                override fun createFragment(position: Int): Fragment {
+                    return fargments2[position]
+                }
+            }
+        }
+
+        mViewBinding!!.bnvBottomBar1
+            .activateTabletMode()
+            .withText(true)
+            .setupWithViewPager(
                 mViewBinding!!.vpPager,
+                titles,
                 arrayOf(
                     Color.parseColor("#25ff0000"),
                     Color.parseColor("#2500ff00"),
@@ -66,9 +87,11 @@ class MainActivity : AppCompatActivity() {
                 ).toIntArray()
             )
 
-        mViewBinding!!.bnvBottomBar2.isColoredBackground(false)
-            .setUpWithViewPager(
-                mViewBinding!!.vpPager,
+        mViewBinding!!.bnvBottomBar2
+            .coloredBackground(false)
+            .setupWithViewPager2(
+                mViewBinding!!.vpPager2,
+                titles,
                 arrayOf(
                     Color.parseColor("#25ff0000"),
                     Color.parseColor("#2500ff00"),
@@ -83,42 +106,43 @@ class MainActivity : AppCompatActivity() {
                 ).toIntArray()
             )
 
-        mViewBinding!!.bnvBottomBar3.isWithText(false)
-            .isColoredBackground(true)
-            .setTextSize(
+        mViewBinding!!.bnvBottomBar3
+            .withText(false)
+            .coloredBackground(true)
+            .textSize(
                 20f,
                 18f
             )
-            .setItemColor(
+            .itemColor(
                 ContextCompat.getColor(this, R.color.colorAccent),
                 ContextCompat.getColor(this, R.color.colorPrimary)
             )
-            .setFont(Typeface.defaultFromStyle(Typeface.ITALIC))
+            .textFont(Typeface.defaultFromStyle(Typeface.ITALIC))
             .setTabs(
                 listOf(
-                    BottomNavigationItem(
+                    NavigationItem(
                         "首页",
                         Color.parseColor("#25ff0000"),
                         R.drawable.ic_nav_home
                     ),
-                    BottomNavigationItem(
+                    NavigationItem(
                         "发现",
                         Color.parseColor("#2500ff00"),
                         R.drawable.ic_nav_discover
                     ),
-                    BottomNavigationItem(
+                    NavigationItem(
                         "热门",
                         Color.parseColor("#250000ff"),
                         R.drawable.ic_nav_hot
                     ),
-                    BottomNavigationItem(
+                    NavigationItem(
                         "我的",
                         Color.parseColor("#25f0f000"),
                         R.drawable.ic_nav_mine
                     )
                 )
             )
-            .setOnBottomNavigationItemClickListener {
+            .onItemClickListener {
 
             }
     }

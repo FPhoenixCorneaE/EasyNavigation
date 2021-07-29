@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="EasyNavigation">
+        <!-- If text will be enabled for the tabs, defaulted to true -->
+        <attr name="en_with_text" format="boolean" />
+        <!-- If there will be a en_shadow on the view, default is true -->
+        <attr name="en_shadow" format="boolean" />
+        <!-- If the view should be set up for a tablet, default is false -->
+        <attr name="en_tablet" format="boolean" />
+        <!-- Disable or enable the background color, default is true -->
+        <attr name="en_colored_background" format="boolean" />
+        <!-- If a supplied ViewPager will have a slide animation, default is true -->
+        <attr name="en_viewpager_slide" format="boolean" />
+        <!-- Text size for the active tab, default size is 14sp -->
+        <attr name="en_active_text_size" format="dimension" />
+        <!-- Text size for an inactive tab, default size is 12sp -->
+        <attr name="en_inactive_text_size" format="dimension" />
+        <!-- The color of an activated tab. -->
+        <attr name="en_item_active_color" format="color" />
+        <!-- The color of an inactivated tab. -->
+        <attr name="en_item_inactive_color" format="color" />
+    </declare-styleable>
+
+</resources>

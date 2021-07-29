@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/en_container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/en_height"
+    android:background="?selectableItemBackgroundBorderless"
+    android:minWidth="@dimen/en_min_width"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/en_padding_top_inactive"
+    android:paddingBottom="@dimen/en_padding_bottom">
+
+    <ImageView
+        android:id="@+id/en_item_icon"
+        android:layout_width="@dimen/en_icon"
+        android:layout_height="@dimen/en_icon"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/en_item_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:gravity="center"
+        android:lines="1"
+        android:textSize="@dimen/en_text_size_inactive"
+        tools:text="Label One" />
+
+</FrameLayout>
