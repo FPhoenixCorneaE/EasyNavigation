@@ -1,6 +1,10 @@
 # EasyNavigation
 底部导航栏
+------------------------------------------------------------------------
 
+<div align="center">
+    <img src="" width="360" align="top"/>
+</div>
 
 How to include it in your project:
 --------------
