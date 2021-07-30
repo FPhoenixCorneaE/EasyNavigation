@@ -3,7 +3,7 @@
 ------------------------------------------------------------------------
 
 <div align="center">
-    <img src="" width="360" align="top"/>
+    <img src="https://github.com/FPhoenixCorneaE/EasyNavigation/blob/master/images/pic_preview.png" width="360" align="top"/>
 </div>
 
 How to include it in your project:
