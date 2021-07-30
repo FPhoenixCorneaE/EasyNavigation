@@ -2,11 +2,13 @@ package com.fphoenixcorneae.navigation
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.Typeface
 import android.os.Build
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -14,7 +16,9 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import java.util.*
+import kotlin.math.absoluteValue
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 /**
  * @desc：EasyNavigation
@@ -58,12 +62,6 @@ class EasyNavigation @JvmOverloads constructor(
      */
     private lateinit var mNavigationItems: ArrayList<NavigationItem>
     private lateinit var mNavigationItemViews: ArrayList<View>
-
-    /**
-     * item：width、height
-     */
-    private var mItemWidth: Int = 0
-    private var mItemHeight: Int = 0
 
     /**
      * item：activeColor、inactiveColor
@@ -137,6 +135,16 @@ class EasyNavigation @JvmOverloads constructor(
      */
     private var mCurrentItem = 0
 
+    /**
+     * center view
+     */
+    private var mCenterView: View? = null
+
+    /**
+     * center view onClick
+     */
+    private var mOnCenterViewClickListener: (() -> Unit)? = null
+
     init {
         defaultSetting()
         initAttrs(context, attrs)
@@ -168,12 +176,14 @@ class EasyNavigation @JvmOverloads constructor(
                 elevation = resources.getDimension(R.dimen.en_elevation)
             }
             // width、height in non tablet mode
-            MATCH_PARENT to if (mShowShadow) {
-                mNavigationHeight + mShadowHeight
-            } else {
-                mNavigationHeight
+            MATCH_PARENT to kotlin.run {
+                val centerViewTranslationY = (mCenterView?.translationY?.absoluteValue ?: 0f).roundToInt()
+                if (mShowShadow) {
+                    mNavigationHeight + max(centerViewTranslationY, mShadowHeight)
+                } else {
+                    mNavigationHeight + centerViewTranslationY
+                }
             }
-
         }
         layoutParams = layoutParams.apply {
             width = measuredWidth
@@ -194,6 +204,8 @@ class EasyNavigation @JvmOverloads constructor(
         addNavigationItemParent()
         // add navigation item
         addNavigationItem()
+        // add center view
+        addCenterView()
     }
 
     /**
@@ -285,17 +297,10 @@ class EasyNavigation @JvmOverloads constructor(
      * add navigation item
      */
     private fun addNavigationItem() {
-        checkItemSize()
         checkCurrentItem()
+        checkItemSize()
         val inflater = LayoutInflater.from(context)
         mNavigationItemViews.clear()
-        if (isTablet) {
-            mItemWidth = LayoutParams.MATCH_PARENT
-            mItemHeight = mNavigationHeight
-        } else {
-            mItemWidth = width / mNavigationItems.size
-            mItemHeight = LayoutParams.MATCH_PARENT
-        }
         for (i in 0 until mNavigationItems.size) {
             if (!mColoredBackground) {
                 mNavigationItems[i].bgColor = Color.WHITE
@@ -304,7 +309,7 @@ class EasyNavigation @JvmOverloads constructor(
                 mNavigationContainer.setBackgroundColor(mNavigationItems[i].bgColor)
             }
 
-            val view = inflater.inflate(R.layout.en_item_layout_navigation, this, false)
+            val view = inflater.inflate(R.layout.en_item_layout_navigation, mNavigationItemParent, false)
             val icon = view.findViewById<View>(R.id.en_item_icon) as? ImageView
             val title = view.findViewById<View>(R.id.en_item_title) as? TextView
             icon?.apply {
@@ -349,6 +354,16 @@ class EasyNavigation @JvmOverloads constructor(
             }
 
             view.apply {
+                layoutParams = layoutParams.apply {
+                    if (isTablet) {
+                        width = MATCH_PARENT
+                        height = mNavigationHeight
+                    } else {
+                        width = 0
+                        height = MATCH_PARENT
+                        (this as? LinearLayout.LayoutParams)?.weight = 1f
+                    }
+                }
                 setPadding(
                     paddingLeft,
                     run {
@@ -370,8 +385,48 @@ class EasyNavigation @JvmOverloads constructor(
                 }
             }.also {
                 mNavigationItemViews.add(it)
-                mNavigationItemParent.addView(it, LayoutParams(mItemWidth, mItemHeight))
+                mNavigationItemParent.addView(it)
             }
+        }
+    }
+
+    /**
+     * add center view
+     */
+    private fun addCenterView() {
+        mCenterView?.let {
+            it.setOnClickListener {
+                mOnCenterViewClickListener?.invoke()
+            }
+            val index = mNavigationItems.size / 2
+            mNavigationItemParent.apply {
+                disableClipChildren()
+                addView(it, index)
+            }
+
+            // 解决 clipChildren 超出 itemParent 部分无法响应点击问题
+            it.post {
+                val hitRect = Rect()
+                // 获取布局当前有效可点击区域
+                it.getHitRect(hitRect)
+                // 扩大布局点击区域
+                hitRect.top += it.translationY.toInt()
+                val touchDelegate: TouchDelegate = SimpleTouchDelegate(hitRect, it)
+                this.isClickable = true
+                // 拦截事件分发
+                this.touchDelegate = touchDelegate
+            }
+        }
+    }
+
+    /**
+     * not to clip children to their bounds
+     */
+    private fun ViewGroup?.disableClipChildren() = run {
+        var parentView: ViewGroup? = this
+        while (parentView != null) {
+            parentView.clipChildren = false
+            parentView = (parentView.parent as? ViewGroup)
         }
     }
 
@@ -561,7 +616,9 @@ class EasyNavigation @JvmOverloads constructor(
      */
     fun defaultSetting() = apply {
         mNavigationHeight = resources.getDimensionPixelSize(R.dimen.en_height)
-        mNavigationContainer = FrameLayout(context)
+        mNavigationContainer = FrameLayout(context).apply {
+            id = View.generateViewId()
+        }
         mNavigationItemParent = LinearLayout(context)
         mNavigationColoredBackgroundTempView = View(context)
 
@@ -608,6 +665,7 @@ class EasyNavigation @JvmOverloads constructor(
         mViewPager = null
         mViewPager2 = null
         mCurrentItem = 0
+        mCenterView = null
     }
 
     /**
@@ -774,6 +832,25 @@ class EasyNavigation @JvmOverloads constructor(
     fun textFont(font: Typeface?) = apply {
         mTextFont = font
     }
+
+    /**
+     * set custom center view
+     */
+    fun setCenterView(centerView: View) = apply {
+        mCenterView = centerView
+    }
+
+    /**
+     * Setup interface for center view onClick
+     */
+    fun onCenterViewClickListener(onCenterViewClick: () -> Unit) = apply {
+        mOnCenterViewClickListener = onCenterViewClick
+    }
+
+    /**
+     * @return custom center view
+     */
+    fun getCenterView() = mCenterView
 
     /**
      * Returns the item that is currently selected
