@@ -2,6 +2,8 @@
 底部导航栏
 ------------------------------------------------------------------------
 
+[![](https://jitpack.io/v/FPhoenixCorneaE/EasyNavigation.svg)](https://jitpack.io/#FPhoenixCorneaE/EasyNavigation)
+
 <div align="center">
     <img src="https://github.com/FPhoenixCorneaE/EasyNavigation/blob/master/images/pic_preview.png" width="360" align="top"/>
 </div>
