@@ -12,6 +12,7 @@ import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.Px
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
@@ -746,6 +747,13 @@ class EasyNavigation @JvmOverloads constructor(
      */
     fun addTab(vararg item: NavigationItem) = apply {
         mNavigationItems.addAll(listOf(*item))
+    }
+
+    /**
+     * set navigation height
+     */
+    fun navigationHeight(@Px navigationHeight: Int) = apply {
+        mNavigationHeight = navigationHeight
     }
 
     /**

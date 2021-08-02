@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.fphoenixcorneae.navigation.NavigationItem
+import com.fphoenixcorneae.navigation.NavigationUtil
 import com.fphoenixcorneae.navigation.demo.databinding.ActivityMainBinding
 import com.fphoenixcorneae.navigation.setOvalBg
 
@@ -158,6 +159,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
             )
+            .navigationHeight(NavigationUtil.dp2px(60f).toInt())
             .onItemClickListener {
 
             }
