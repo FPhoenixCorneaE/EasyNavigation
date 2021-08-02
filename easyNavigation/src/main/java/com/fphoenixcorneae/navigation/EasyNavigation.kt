@@ -238,6 +238,7 @@ class EasyNavigation @JvmOverloads constructor(
      */
     private fun addNavigationContainer() {
         mNavigationContainer.apply {
+            removeAllViews()
             layoutParams = kotlin.run {
                 if (isTablet) {
                     LayoutParams(mNavigationHeight, MATCH_PARENT).apply {
@@ -280,6 +281,7 @@ class EasyNavigation @JvmOverloads constructor(
      */
     private fun addNavigationItemParent() {
         mNavigationItemParent.apply {
+            removeAllViews()
             if (isTablet) {
                 orientation = LinearLayout.VERTICAL
                 layoutParams = LayoutParams(mNavigationHeight, MATCH_PARENT)
@@ -395,15 +397,6 @@ class EasyNavigation @JvmOverloads constructor(
      */
     private fun addCenterView() {
         mCenterView?.let {
-            it.setOnClickListener {
-                mOnCenterViewClickListener?.invoke()
-            }
-            val index = mNavigationItems.size / 2
-            mNavigationItemParent.apply {
-                disableClipChildren()
-                addView(it, index)
-            }
-
             // 解决 clipChildren 超出 itemParent 部分无法响应点击问题
             it.post {
                 val hitRect = Rect()
@@ -415,6 +408,14 @@ class EasyNavigation @JvmOverloads constructor(
                 this.isClickable = true
                 // 拦截事件分发
                 this.touchDelegate = touchDelegate
+            }
+            it.setOnClickListener {
+                mOnCenterViewClickListener?.invoke()
+            }
+            val index = mNavigationItems.size / 2
+            mNavigationItemParent.apply {
+                disableClipChildren()
+                addView(it, index)
             }
         }
     }
