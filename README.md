@@ -24,6 +24,6 @@ allprojects {
 **Step 2.** Add the dependency
 ```groovy
 dependencies {
-	implementation 'com.github.FPhoenixCorneaE:EasyNavigation:$latest'
+	implementation 'com.github.FPhoenixCorneaE.EasyNavigation:easyNavigation:$latest'
 }
 ```
