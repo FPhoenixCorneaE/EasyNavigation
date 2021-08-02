@@ -1,5 +1,5 @@
 # EasyNavigation
-底部导航栏
+Android 底部导航栏，几行代码实现 Tab 导航（支持自定义 CenterView、支持 ViewPager2）
 ------------------------------------------------------------------------
 
 [![](https://jitpack.io/v/FPhoenixCorneaE/EasyNavigation.svg)](https://jitpack.io/#FPhoenixCorneaE/EasyNavigation)
