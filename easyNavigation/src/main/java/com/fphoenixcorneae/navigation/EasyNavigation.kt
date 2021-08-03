@@ -816,6 +816,14 @@ class EasyNavigation @JvmOverloads constructor(
     }
 
     /**
+     * Change icon size
+     */
+    fun iconScale(iconActiveScale: Float, iconInactiveScale: Float) = apply {
+        mIconActiveScale = iconActiveScale
+        mIconInactiveScale = iconInactiveScale
+    }
+
+    /**
      * Change text size
      *
      * @param textActiveSize   active pixel size

@@ -126,6 +126,7 @@ class MainActivity : AppCompatActivity() {
         mViewBinding!!.bnvBottomBar3
             .withText(false)
             .coloredBackground(true)
+            .iconScale(1.3f, 0.5f)
             .textSize(
                 20f,
                 18f
