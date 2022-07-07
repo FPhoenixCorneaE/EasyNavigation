@@ -3,6 +3,7 @@ package com.fphoenixcorneae.navigation.demo
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -97,13 +98,14 @@ class MainActivity : AppCompatActivity() {
         mViewBinding!!.bnvBottomBar2
             .coloredBackground(false)
             .setCenterView(ImageView(this).apply {
-                layoutParams = LinearLayout.LayoutParams(120, 120)
+                layoutParams = LinearLayout.LayoutParams(200, 200)
                 setPadding(20)
-                translationY = -40f
+                translationY = -80f
                 setImageResource(R.mipmap.ic_add)
                 setOvalBg(Color.WHITE)
             })
             .onCenterViewClickListener {
+                Log.d("onCenterViewClick", "click the center view!")
                 Toast.makeText(this, "click the center view!", Toast.LENGTH_SHORT).show()
             }
             .setupWithViewPager2(

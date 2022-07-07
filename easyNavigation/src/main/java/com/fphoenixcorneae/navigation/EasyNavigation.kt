@@ -7,10 +7,7 @@ import android.graphics.Typeface
 import android.os.Build
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.LayoutInflater
-import android.view.TouchDelegate
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.annotation.Px
 import androidx.core.content.ContextCompat
@@ -413,6 +410,13 @@ class EasyNavigation @JvmOverloads constructor(
             it.setOnClickListener {
                 mOnCenterViewClickListener?.invoke()
             }
+            // 解决某些Android设备超出parent不响应点击问题
+            it.setOnTouchListener { v, event ->
+                if (event.action == MotionEvent.ACTION_UP) {
+                    v.performClick()
+                }
+                return@setOnTouchListener true
+            }
             val index = mNavigationItems.size / 2
             mNavigationItemParent.apply {
                 disableClipChildren()
@@ -591,10 +595,10 @@ class EasyNavigation @JvmOverloads constructor(
             val finalRadius = max(width, height)
             val (centerX, centerY) = if (isTablet) {
                 (mNavigationItemViews[itemIndex].width / 2) to
-                    (mNavigationItemViews[itemIndex].y.toInt() + mNavigationItemViews[itemIndex].height / 2)
+                        (mNavigationItemViews[itemIndex].y.toInt() + mNavigationItemViews[itemIndex].height / 2)
             } else {
                 (mNavigationItemViews[itemIndex].x.toInt() + mNavigationItemViews[itemIndex].width / 2) to
-                    (mNavigationItemViews[itemIndex].height / 2)
+                        (mNavigationItemViews[itemIndex].height / 2)
             }
             mNavigationColoredBackgroundTempView.startCircularReveal(
                 centerX, centerY, 0f, finalRadius.toFloat(),
