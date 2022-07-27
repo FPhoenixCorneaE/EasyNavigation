@@ -754,7 +754,7 @@ class EasyNavigation @JvmOverloads constructor(
     }
 
     /**
-     * set navigation height
+     * Set navigation height
      */
     fun navigationHeight(@Px navigationHeight: Int) = apply {
         mNavigationHeight = navigationHeight
@@ -846,7 +846,7 @@ class EasyNavigation @JvmOverloads constructor(
     }
 
     /**
-     * set custom font for item texts
+     * Set custom font for item texts
      *
      * @param font custom font
      */
@@ -855,7 +855,7 @@ class EasyNavigation @JvmOverloads constructor(
     }
 
     /**
-     * set custom center view
+     * Set custom center view
      */
     fun setCenterView(centerView: View) = apply {
         mCenterView = centerView
