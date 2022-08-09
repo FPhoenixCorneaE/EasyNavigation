@@ -1,5 +1,6 @@
 package com.fphoenixcorneae.navigation
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
@@ -11,9 +12,9 @@ import android.view.*
 import android.widget.*
 import androidx.annotation.Px
 import androidx.core.content.ContextCompat
+import androidx.core.view.postDelayed
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
-import java.util.*
 import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -164,6 +165,7 @@ class EasyNavigation @JvmOverloads constructor(
         }
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val (measuredWidth, measuredHeight) = if (isTablet) {
@@ -191,19 +193,8 @@ class EasyNavigation @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        removeAllViews()
-        // add shadow or line
-        addShadowOrLine()
-        // add navigation container
-        addNavigationContainer()
-        // add navigation colored bg view
-        addNavigationColoredBgView()
-        // add navigation item parent
-        addNavigationItemParent()
-        // add navigation item
-        addNavigationItem()
-        // add center view
-        addCenterView()
+        // 刷新布局
+        refreshLayout()
     }
 
     /**
@@ -256,6 +247,7 @@ class EasyNavigation @JvmOverloads constructor(
     /**
      * add navigation colored bg view
      */
+    @SuppressLint("ObsoleteSdkInt")
     private fun addNavigationColoredBgView() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mNavigationColoredBackgroundTempView.apply {
@@ -589,6 +581,7 @@ class EasyNavigation @JvmOverloads constructor(
     /**
      * change navigation background color
      */
+    @SuppressLint("ObsoleteSdkInt")
     private fun changeNavigationBackgroundColor(itemIndex: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // start circular reveal
@@ -672,6 +665,27 @@ class EasyNavigation @JvmOverloads constructor(
         mViewPager2 = null
         mCurrentItem = 0
         mCenterView = null
+    }
+
+    /**
+     * refresh layout
+     */
+    fun refreshLayout(delayInMillis: Long = 0) {
+        postDelayed(delayInMillis) {
+            removeAllViews()
+            // add shadow or line
+            addShadowOrLine()
+            // add navigation container
+            addNavigationContainer()
+            // add navigation colored bg view
+            addNavigationColoredBgView()
+            // add navigation item parent
+            addNavigationItemParent()
+            // add navigation item
+            addNavigationItem()
+            // add center view
+            addCenterView()
+        }
     }
 
     /**

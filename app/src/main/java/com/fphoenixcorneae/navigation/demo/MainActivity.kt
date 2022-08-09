@@ -164,7 +164,9 @@ class MainActivity : AppCompatActivity() {
             )
             .navigationHeight(NavigationUtil.dp2px(60f).toInt())
             .onItemClickListener {
-
+                mViewBinding!!.bnvBottomBar3
+                    .itemColor(Color.BLACK, Color.BLUE)
+                    .refreshLayout(100)
             }
     }
 
